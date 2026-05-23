@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest-fat
+    container_name: stirling-pdf-desktop
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/configs:/configs
+      - ./data/customFiles:/customFiles
+      - ./data/logs:/logs
+      - ./data/pipeline:/pipeline
+      - ./data/tessdata:/usr/share/tessdata
+    environment:
+      - DOCKER_ENABLE_SECURITY=false
+      - SECURITY_ENABLELOGIN=false
+      - UI_APP_NAME=StirlingPDF Desktop
+      - UI_HOME_DESCRIPTION=Your all-in-one PDF toolkit
+      - SYSTEM_DEFAULT_LOCALE=en-US
+      - SYSTEM_GOOGLE_VISIBILITY=false
+      - METRICS_ENABLED=false
+      - INSTALL_BOOK_AND_ADVANCE_HTML_OPS=false
+      - LANGS=en_GB
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s

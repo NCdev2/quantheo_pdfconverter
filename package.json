@@ -1,0 +1,26 @@
+{
+  "name": "quantheo-desktop",
+  "version": "1.0.0",
+  "description": "Production-grade Quantheo Desktop Application",
+  "main": "electron/main.js",
+  "author": "Nevelle Coutinho",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder --win",
+    "build:dir": "electron-builder --win --dir",
+    "pack": "electron-builder --win nsis"
+  },
+  "dependencies": {
+    "auto-launch": "^5.0.6",
+    "electron-store": "^8.1.0",
+    "markdown-it": "^14.1.1",
+    "node-fetch": "^2.7.0",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "electron": "^29.1.0",
+    "electron-builder": "^24.13.3"
+  }
+}

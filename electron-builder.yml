@@ -1,0 +1,45 @@
+appId: com.quantheo.desktop
+productName: Quantheo
+copyright: "Copyright © 2024 Nevelle Coutinho. Copyrights exclusive to the owner."
+artifactName: "${productName} Setup ${version}.${ext}"
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: assets/icon.png
+  publisherName: Nevelle Coutinho
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Quantheo
+  runAfterFinish: true
+  deleteAppDataOnUninstall: false
+  include: scripts/installer.nsh
+  license: "assets/license.txt"
+
+directories:
+  buildResources: assets
+  output: build-dist
+
+files:
+  - electron/**/*
+  - src/**/*
+  - assets/**/*
+  - node_modules/**/*
+  - package.json
+
+extraResources:
+  - from: resources/jre
+    to: jre
+    filter:
+      - "**/*"
+  - from: resources/stirling-pdf.jar
+    to: stirling-pdf.jar
+
+publish: null

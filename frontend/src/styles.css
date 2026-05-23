@@ -1,0 +1,68 @@
+:root {
+  --ion-color-primary: #d5aa6d;
+  --ion-color-primary-rgb: 213,170,109;
+  --ion-color-secondary: #3f2f22;
+  --ion-color-tertiary: #f9f5ef;
+  --ion-color-success: #4caf50;
+  --ion-color-warning: #ffc107;
+  --ion-color-danger: #f44336;
+  --ion-background-color: #f7f2ec;
+  --ion-text-color: #2c1f16;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top, rgba(213, 170, 109, 0.14), transparent 25%), #f9f5ef;
+}
+
+ion-app, ion-page, ion-content {
+  background: transparent !important;
+}
+
+.page-content {
+  padding: 16px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 96px;
+  min-height: 32px;
+  border-radius: 999px;
+  color: white;
+  font-weight: 700;
+  padding: 0 16px;
+}
+
+.button-row {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.save-notice {
+  margin-top: 16px;
+  color: #3f2f22;
+  font-weight: 600;
+}
+
+ion-card {
+  border: 1px solid rgba(213, 170, 109, 0.24);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
+}
+
+ion-card-header {
+  background: rgba(213, 170, 109, 0.08);
+}
+
+ion-item {
+  margin-top: 8px;
+}
+
+ion-input {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}

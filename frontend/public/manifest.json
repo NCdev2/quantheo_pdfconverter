@@ -1,0 +1,9 @@
+{
+  "name": "StirlingPDF",
+  "short_name": "StirlingPDF",
+  "description": "StirlingPDF mobile and web interface.",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#d5aa6d",
+  "background_color": "#f9f5ef"
+}

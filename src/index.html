@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+  <title>Quantheo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Startup Overlay -->
+  <div id="startup-overlay">
+    <div class="startup-logo">Q</div>
+    <div class="startup-title">Quantheo Desktop</div>
+    <div class="startup-subtitle">Initializing backend services...</div>
+    <div class="startup-progress">
+      <div class="startup-bar" id="startup-bar" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- Titlebar -->
+  <div class="titlebar">
+    <div class="titlebar-brand">
+      <div class="titlebar-logo">Q</div>
+      Quantheo Desktop
+    </div>
+    <div class="titlebar-controls">
+      <button class="titlebar-btn min" id="btn-min" aria-label="Minimize"></button>
+      <button class="titlebar-btn max" id="btn-max" aria-label="Maximize"></button>
+      <button class="titlebar-btn close" id="btn-close" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="app-layout">
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="status-badge">
+        <div class="status-dot stopped" id="status-dot"></div>
+        <span id="status-text">Stopped</span>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-section-label">Navigation</div>
+      <div class="nav-item active" id="nav-webview" data-target="webview-page">
+        <span class="icon">🌐</span> Quantheo App
+      </div>
+      <div class="nav-item" data-target="convert-page">
+        <span class="icon">🔄</span> Convert
+      </div>
+      <div class="nav-item" data-target="image-page">
+        <span class="icon">🖼️</span> Image Tools
+      </div>
+      <div class="nav-item" data-target="settings-page">
+        <span class="icon">⚙️</span> Settings
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-section-label">Actions</div>
+      <div class="nav-item" id="btn-start">
+        <span class="icon">▶️</span> Start Backend
+      </div>
+      <div class="nav-item" id="btn-stop">
+        <span class="icon">⏹️</span> Stop Backend
+      </div>
+      <div class="nav-item" id="btn-browser">
+        <span class="icon">🔗</span> Open in Browser
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      
+      <!-- Webview Page -->
+      <div class="page active" id="webview-page">
+        <div class="webview-toolbar">
+          <div class="webview-url" id="webview-url-display">http://localhost:8080/</div>
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px;" id="webview-fullscreen">⛶ Full Screen</button>
+          <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px;" id="webview-refresh">↻ Refresh</button>
+        </div>
+        <div class="webview-wrapper">
+          <webview id="stirling-webview" src="data:text/html,<html><body style='background:transparent;'></body></html>"></webview>
+          <div class="webview-loading" id="webview-loading">
+            <div class="spinner"></div>
+            <div>Waiting for backend...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Convert Page -->
+      <div class="page" id="convert-page">
+        <div class="convert-header">
+          <h1 class="convert-title">Document Converter</h1>
+          <p class="convert-subtitle">Transform PDFs to Markdown and Markdown to PDF — offline, instant.</p>
+        </div>
+
+        <!-- Mode Tabs -->
+        <div class="convert-tabs">
+          <button class="convert-tab active" id="tab-pdf-to-md" data-mode="pdf-to-md">
+            <span class="tab-icon">📄→📝</span> PDF to Markdown
+          </button>
+          <button class="convert-tab" id="tab-md-to-pdf" data-mode="md-to-pdf">
+            <span class="tab-icon">📝→📄</span> Markdown to PDF
+          </button>
+        </div>
+
+        <!-- PDF → Markdown Panel -->
+        <div class="convert-panel active" id="panel-pdf-to-md">
+          <div class="convert-split">
+            <!-- Left: Drop zone -->
+            <div class="convert-half">
+              <div class="panel-label">Input PDF</div>
+              <div class="drop-zone" id="pdf-drop-zone">
+                <div class="drop-zone-icon">📄</div>
+                <div class="drop-zone-text">Drop a PDF here</div>
+                <div class="drop-zone-sub">or click to browse</div>
+                <input type="file" id="pdf-file-input" accept=".pdf" style="display:none">
+              </div>
+              <div class="convert-file-info" id="pdf-file-info" style="display:none">
+                <span class="file-name" id="pdf-file-name"></span>
+                <span class="file-meta" id="pdf-file-meta"></span>
+              </div>
+              <div class="convert-actions">
+                <button class="convert-btn primary" id="btn-convert-pdf-md" disabled>
+                  <span class="btn-icon">⚡</span> Convert to Markdown
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Markdown output -->
+            <div class="convert-half">
+              <div class="panel-label">
+                Markdown Output
+                <button class="copy-btn" id="btn-copy-md" style="display:none">⎘ Copy</button>
+              </div>
+              <div class="md-output-wrapper">
+                <textarea class="md-output" id="md-output" placeholder="Converted Markdown will appear here…" readonly></textarea>
+              </div>
+              <div class="convert-actions">
+                <button class="convert-btn secondary" id="btn-save-md" disabled>
+                  <span class="btn-icon">💾</span> Save .md File
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Markdown → PDF Panel -->
+        <div class="convert-panel" id="panel-md-to-pdf">
+          <div class="convert-split">
+            <!-- Left: Markdown editor -->
+            <div class="convert-half">
+              <div class="panel-label">
+                Markdown Input
+                <button class="copy-btn" id="btn-load-md-file">📂 Open File</button>
+              </div>
+              <textarea class="md-editor" id="md-editor" placeholder="# Hello World
+
+Type or paste your **Markdown** here…
+
+## Features
+- Live preview on the right
+- Export to a beautiful PDF
+- Styled headings, code blocks, tables"></textarea>
+              <div class="convert-actions">
+                <button class="convert-btn primary" id="btn-convert-md-pdf">
+                  <span class="btn-icon">⚡</span> Export to PDF
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: HTML preview -->
+            <div class="convert-half">
+              <div class="panel-label">Live Preview</div>
+              <div class="md-preview-wrapper">
+                <div class="md-preview" id="md-preview">
+                  <p style="color: var(--text-muted); text-align:center; margin-top: 40px;">Start typing to see a preview…</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Image Tools Page -->
+      <div class="page" id="image-page">
+        <div class="convert-header">
+          <h1 class="convert-title">Image Tools</h1>
+          <p class="convert-subtitle">Resize and skew images instantly.</p>
+        </div>
+
+        <div class="convert-panel active">
+          <div class="convert-split">
+            <!-- Left: Drop zone -->
+            <div class="convert-half">
+              <div class="panel-label">Input Image</div>
+              <div class="drop-zone" id="img-drop-zone">
+                <div class="drop-zone-icon">🖼️</div>
+                <div class="drop-zone-text">Drop an image here</div>
+                <div class="drop-zone-sub">or click to browse</div>
+                <input type="file" id="img-file-input" accept="image/*" style="display:none">
+              </div>
+              <div class="convert-file-info" id="img-file-info" style="display:none">
+                <span class="file-name" id="img-file-name"></span>
+                <span class="file-meta" id="img-file-meta"></span>
+              </div>
+              <div class="convert-actions" style="justify-content: flex-start; gap: 10px; margin-top: 20px;">
+                <button class="convert-btn primary" id="btn-resize-skew" disabled>
+                  <span class="btn-icon">📐</span> Resize and Skew
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Preview -->
+            <div class="convert-half">
+              <div class="panel-label">Live Preview</div>
+              <div class="md-preview-wrapper" style="display: flex; align-items: center; justify-content: center; background: url('data:image/svg+xml;utf8,<svg width=\"20\" height=\"20\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"0\" y=\"0\" width=\"10\" height=\"10\" fill=\"%23e0e0e0\"/><rect x=\"10\" y=\"10\" width=\"10\" height=\"10\" fill=\"%23e0e0e0\"/><rect x=\"0\" y=\"10\" width=\"10\" height=\"10\" fill=\"%23ffffff\"/><rect x=\"10\" y=\"0\" width=\"10\" height=\"10\" fill=\"%23ffffff\"/></svg>') repeat;">
+                <div id="img-preview" style="max-width: 100%; max-height: 100%; display: flex; align-items: center; justify-content: center;">
+                  <p style="color: var(--text-muted); text-align:center;">Load an image to preview…</p>
+                </div>
+              </div>
+              <div class="convert-actions" style="margin-top: 15px;">
+                <button class="convert-btn secondary" id="btn-save-img" disabled>
+                  <span class="btn-icon">💾</span> Save Image
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Page -->
+      <div class="page" id="settings-page">
+        <div class="section-heading">Application Settings</div>
+        
+        <div class="settings-section">
+          <div class="settings-title">General</div>
+          
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Auto Start Backend</div>
+              <div class="setting-desc">Start Quantheo engine automatically when app opens</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="setting-autostart">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Launch on Startup</div>
+              <div class="setting-desc">Open Quantheo Desktop when Windows starts</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="setting-autolaunch">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-title">Advanced</div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Local Port</div>
+              <div class="setting-desc">Port used by the Docker container (default: 8080)</div>
+            </div>
+            <div>
+              <input type="number" id="setting-port" value="8080" style="background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-main); padding: 6px 10px; border-radius: 4px; width: 80px;" disabled>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Added Settings Tab -->
+        <h2>License & Settings</h2>
+        <div class="card-grid">
+          <div class="card" id="license-card">
+            <h3>License Key</h3>
+            <p id="license-status">Status: Validating...</p>
+            <input type="text" id="license-input" placeholder="Enter License Key..." style="width: 100%; padding: 8px; margin-top: 10px;">
+            <button id="submit-license" class="primary-btn" style="margin-top: 10px;">Apply License</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer-copyright" style="position: fixed; bottom: 10px; right: 10px; color: var(--text-muted); font-size: 12px;">
+    Copyright © 2024 Nevelle Coutinho. Copyrights exclusive to the owner.
+  </div>
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+  <!-- Resize and Skew Modal -->
+  <div class="modal-overlay" id="resize-modal-overlay">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h2 class="modal-title">Resize and Skew</h2>
+        <button class="modal-close" id="btn-modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Resize Section -->
+        <div class="modal-section-title">Resize</div>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input type="radio" name="resize-type" value="percentage" checked>
+            <span class="radio-custom"></span> Percentage
+          </label>
+          <label class="radio-label" style="margin-left: 20px;">
+            <input type="radio" name="resize-type" value="pixels">
+            <span class="radio-custom"></span> Pixels
+          </label>
+        </div>
+
+        <div class="inputs-row">
+          <div class="input-group">
+            <label>Horizontal</label>
+            <div class="input-wrapper">
+              <input type="number" id="resize-h" value="100">
+            </div>
+          </div>
+          
+          <div class="link-btn-container">
+            <button class="link-btn active" id="btn-link-aspect" title="Maintain aspect ratio">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            </button>
+          </div>
+
+          <div class="input-group">
+            <label>Vertical</label>
+            <div class="input-wrapper">
+              <input type="number" id="resize-v" value="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Skew Section -->
+        <div class="modal-section-title">Skew</div>
+        <div class="inputs-row">
+          <div class="input-group">
+            <label>Horizontal</label>
+            <div class="input-wrapper skew-input">
+              <input type="number" id="skew-h" value="0">
+              <span class="degree-symbol">°</span>
+            </div>
+          </div>
+          <div class="input-spacer"></div>
+          <div class="input-group">
+            <label>Vertical</label>
+            <div class="input-wrapper skew-input">
+              <input type="number" id="skew-v" value="0">
+              <span class="degree-symbol">°</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn-primary" id="btn-modal-ok">OK</button>
+        <button class="modal-btn-secondary" id="btn-modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

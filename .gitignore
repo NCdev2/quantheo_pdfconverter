@@ -1,0 +1,17 @@
+node_modules/
+dist/
+build/
+*.log
+node_modules/
+dist/
+build/
+*.log
+.env
+.DS_Store
+.vscode/
+frontend/node_modules/
+backend/node_modules/
+frontend/dist/
+build-dist/
+data/
+resources/

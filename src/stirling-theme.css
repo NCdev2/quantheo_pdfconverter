@@ -1,0 +1,222 @@
+/* =========================================================================
+   STIRLING PDF DESKTOP - GLAMOROUS GOLDEN (IVORY) THEME
+   This stylesheet is injected into the Stirling PDF Webview to completely
+   transform its appearance into a premium ivory and gold theme.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --app-bg-1: #fcfbf7;
+  --app-bg-2: #ffffff;
+  --app-card-bg: rgba(255, 255, 255, 0.85);
+  --app-card-border: #d4af37;
+  --app-text-main: #4e342e;
+  --app-text-muted: #8d6e63;
+  --app-accent-1: #d4af37;
+  --app-accent-2: #b38728;
+  --app-accent-gradient: linear-gradient(135deg, #d4af37, #fcf6ba, #b38728);
+  --app-accent-hover: linear-gradient(135deg, #e3c460, #fcf6ba);
+  --app-glass-blur: blur(24px);
+}
+
+/* Base Body and Font Override */
+body, html {
+  font-family: 'Inter', sans-serif !important;
+  background-color: var(--app-bg-1) !important;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05), transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(179, 135, 40, 0.05), transparent 50%) !important;
+  background-attachment: fixed !important;
+  color: var(--app-text-main) !important;
+}
+
+/* Headings in Serif for Glamour */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Playfair Display', serif !important;
+  color: var(--app-text-main) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+}
+
+p, span, div {
+  color: var(--app-text-main) !important;
+}
+.text-muted, .text-secondary {
+  color: var(--app-text-muted) !important;
+}
+
+/* Navbar Redesign */
+.navbar {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: var(--app-glass-blur) !important;
+  -webkit-backdrop-filter: var(--app-glass-blur) !important;
+  border-bottom: 2px solid var(--app-card-border) !important;
+  padding: 1rem 2rem !important;
+  box-shadow: 0 4px 30px rgba(212, 175, 55, 0.15) !important;
+}
+.navbar-brand {
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 700 !important;
+  font-size: 1.8rem !important;
+  background: var(--app-accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.navbar-nav .nav-link {
+  color: var(--app-text-main) !important;
+  font-weight: 600 !important;
+  margin: 0 8px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link.active {
+  background: rgba(212, 175, 55, 0.1) !important;
+  color: var(--app-accent-2) !important;
+  box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.1) !important;
+}
+
+/* Card Redesign (Tools and Forms) */
+.card, .jumbotron, .bg-light, .bg-white {
+  background: var(--app-card-bg) !important;
+  backdrop-filter: var(--app-glass-blur) !important;
+  -webkit-backdrop-filter: var(--app-glass-blur) !important;
+  border: 1px solid var(--app-card-border) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05), inset 0 0 10px rgba(212, 175, 55, 0.05) !important;
+  color: var(--app-text-main) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+.card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(212, 175, 55, 0.2) !important;
+  border-color: var(--app-accent-2) !important;
+}
+.card-header, .card-footer {
+  background: transparent !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Button Overrides */
+.btn-primary, .btn-success, .btn-info {
+  background: var(--app-accent-gradient) !important;
+  border: 1px solid #fff !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  padding: 0.6rem 1.2rem !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4) !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+}
+.btn-primary:hover, .btn-success:hover, .btn-info:hover {
+  background: var(--app-accent-hover) !important;
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.6) !important;
+  transform: translateY(-2px) !important;
+  color: #4e342e !important;
+  text-shadow: none !important;
+}
+.btn-secondary, .btn-outline-secondary, .btn-light, .btn-dark {
+  background: rgba(212, 175, 55, 0.05) !important;
+  border: 1px solid var(--app-card-border) !important;
+  border-radius: 6px !important;
+  color: var(--app-text-main) !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+.btn-secondary:hover, .btn-outline-secondary:hover, .btn-light:hover, .btn-dark:hover {
+  background: rgba(212, 175, 55, 0.15) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Form Controls and Inputs */
+.form-control, .form-select, input, select, textarea {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  border-radius: 6px !important;
+  color: var(--app-text-main) !important;
+  padding: 0.6rem 1rem !important;
+  transition: all 0.2s ease !important;
+}
+.form-control:focus, .form-select:focus, input:focus {
+  background: #ffffff !important;
+  border-color: var(--app-accent-1) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25) !important;
+  color: var(--app-text-main) !important;
+}
+.form-control::placeholder {
+  color: rgba(141, 110, 99, 0.6) !important;
+}
+
+/* File Drop Zone */
+.drop-zone, #drop-zone, .file-drop-area {
+  background: rgba(255, 255, 255, 0.3) !important;
+  border: 2px dashed var(--app-card-border) !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+}
+.drop-zone:hover, #drop-zone:hover, .file-drop-area:hover {
+  background: rgba(212, 175, 55, 0.08) !important;
+  border-color: var(--app-accent-2) !important;
+  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1) !important;
+}
+
+/* Table Overrides */
+table, .table {
+  color: var(--app-text-main) !important;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(212, 175, 55, 0.05) !important;
+}
+.table td, .table th {
+  border-top: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+.table thead th {
+  border-bottom: 2px solid var(--app-card-border) !important;
+}
+
+/* Modals */
+.modal-content {
+  background: var(--app-bg-1) !important;
+  border: 1px solid var(--app-card-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 30px rgba(212, 175, 55, 0.2) !important;
+}
+.modal-header {
+  border-bottom-color: rgba(212, 175, 55, 0.3) !important;
+}
+.modal-footer {
+  border-top-color: rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.4) !important;
+  border-radius: 4px !important;
+  border: 1px solid #fff !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.8) !important;
+}
+
+/* Badges / Tags */
+.badge {
+  background: rgba(212, 175, 55, 0.2) !important;
+  color: var(--app-text-main) !important;
+  border: 1px solid rgba(212, 175, 55, 0.5) !important;
+}
+
+/* Fix Stirling icon colors */
+i.bi, i.fas, i.far, svg {
+  color: inherit !important;
+}
