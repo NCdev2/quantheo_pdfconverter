@@ -48,7 +48,7 @@ contextBridge.exposeInMainWorld('stirlingAPI', {
   // Conversion
   pdfToMarkdown: (pdfPath)                    => ipcRenderer.invoke('convert:pdf-to-md', pdfPath),
   markdownToPdf: (markdownContent, outputPath) => ipcRenderer.invoke('convert:md-to-pdf', markdownContent, outputPath),
-}
+});
 
 /**
  * Expose platform info

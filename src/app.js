@@ -161,6 +161,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.stirlingAPI.setSetting('autoLaunch', e.target.checked);
     showToast('Setting saved');
   });
+  settingPort.addEventListener('change', (e) => {
+    window.stirlingAPI.setSetting('port', parseInt(e.target.value, 10));
+    showToast('Port setting saved. Restart backend to apply.');
+  });
 
   // Actions
   btnStart.addEventListener('click', () => window.stirlingAPI.startBackend());
