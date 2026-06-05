@@ -1,6 +1,6 @@
 appId: com.quantheo.desktop
-productName: Quantheo
-copyright: "Copyright © 2024 Nevelle Coutinho. Copyrights exclusive to the owner."
+productName: "Quantheo PDF"
+copyright: "Copyright © 2026 Nevelle Coutinho. Copyrights exclusive to the owner."
 artifactName: "${productName} Setup ${version}.${ext}"
 
 win:
@@ -17,11 +17,14 @@ nsis:
   allowElevation: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: Quantheo
+  shortcutName: "Quantheo PDF"
   runAfterFinish: true
   deleteAppDataOnUninstall: false
   include: scripts/installer.nsh
   license: "assets/license.txt"
+  installerIcon: "assets/logo.png"
+  uninstallerIcon: "assets/logo.png"
+  installerHeaderIcon: "assets/logo.png"
 
 directories:
   buildResources: assets
