@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   const webview = document.getElementById('stirling-webview');
   const webviewLoading = document.getElementById('webview-loading');
+  const webviewErrorMsg = document.getElementById('webview-error-msg');
   const webviewUrlDisplay = document.getElementById('webview-url-display');
   const webviewRefresh = document.getElementById('webview-refresh');
   const webviewFullscreen = document.getElementById('webview-fullscreen');
@@ -258,7 +259,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       
       if (data.status === 'error' && data.error) {
+        // Show persistent error banner inside the loading pane
+        if (webviewErrorMsg) {
+          webviewErrorMsg.textContent = data.error;
+          webviewErrorMsg.style.display = 'block';
+        }
         showToast(data.error, 'error');
+      } else {
+        if (webviewErrorMsg) webviewErrorMsg.style.display = 'none';
       }
     }
   }

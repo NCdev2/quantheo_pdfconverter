@@ -322,6 +322,21 @@ webview {
 }
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
+.webview-error-msg {
+  margin-top: 20px;
+  max-width: 480px;
+  background: rgba(244, 67, 54, 0.08);
+  border: 1px solid rgba(244, 67, 54, 0.35);
+  border-radius: 8px;
+  padding: 14px 18px;
+  color: #c0392b;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 /* Settings Page */
 #settings-page {
   padding: 30px 40px;

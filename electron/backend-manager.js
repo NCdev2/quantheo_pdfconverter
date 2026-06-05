@@ -48,15 +48,91 @@ class BackendManager extends EventEmitter {
     }
   }
 
-  /** HTTP health probe — resolves true when the app is responding */
+  /**
+   * HTTP health probe — resolves true only when Stirling-PDF is responding.
+   * We fingerprint the response body so that other services on the same port
+   * (e.g. EDB Postgres web UI) are NOT mistakenly treated as healthy.
+   */
   _healthCheck() {
     return new Promise((resolve) => {
+      let resolved = false;
+      const doResolve = (val) => {
+        if (!resolved) {
+          resolved = true;
+          resolve(val);
+        }
+      };
+
       const req = http.get(
         { hostname: this.host, port: this.port, path: '/', timeout: 5000 },
-        (res) => resolve(res.statusCode >= 200 && res.statusCode < 400)
+        (res) => {
+          if (res.statusCode < 200 || res.statusCode >= 400) {
+            res.resume();
+            return doResolve(false);
+          }
+          let body = '';
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            body += chunk;
+            if (body.toLowerCase().includes('stirling')) {
+              res.destroy();
+              return doResolve(true);
+            }
+            if (body.length > 8192) {
+              res.destroy();
+              return doResolve(false);
+            }
+          });
+          res.on('end', () => {
+            doResolve(body.toLowerCase().includes('stirling'));
+          });
+          res.on('error', () => doResolve(false));
+        }
       );
-      req.on('error',   () => resolve(false));
-      req.on('timeout', () => { req.destroy(); resolve(false); });
+      req.on('error',   () => doResolve(false));
+      req.on('timeout', () => { req.destroy(); doResolve(false); });
+    });
+  }
+
+  /**
+   * Check if something OTHER than Stirling-PDF is already bound to the port.
+   * Resolves true  → port is occupied by a foreign service (conflict).
+   * Resolves false → port is free, or already serving Stirling-PDF.
+   */
+  _isPortConflict() {
+    return new Promise((resolve) => {
+      let resolved = false;
+      const doResolve = (val) => {
+        if (!resolved) {
+          resolved = true;
+          resolve(val);
+        }
+      };
+
+      const req = http.get(
+        { hostname: this.host, port: this.port, path: '/', timeout: 3000 },
+        (res) => {
+          let body = '';
+          res.setEncoding('utf8');
+          res.on('data', (chunk) => {
+            body += chunk;
+            if (body.toLowerCase().includes('stirling')) {
+              res.destroy();
+              return doResolve(false); // It IS Stirling, so NO conflict
+            }
+            if (body.length > 4096) {
+              res.destroy();
+              return doResolve(true); // Got enough data, no stirling found, so CONFLICT
+            }
+          });
+          res.on('end', () => {
+            doResolve(!body.toLowerCase().includes('stirling'));
+          });
+          res.on('error', () => doResolve(true));
+        }
+      );
+      req.on('error',   () => doResolve(false)); // nothing listening → no conflict
+      req.on('timeout', () => { req.destroy(); doResolve(true); });
     });
   }
 
@@ -113,6 +189,16 @@ class BackendManager extends EventEmitter {
     // Validate JAR exists
     if (!this.jarPath || !fs.existsSync(this.jarPath)) {
       this.lastError = `Stirling-PDF JAR not found at: ${this.jarPath}`;
+      this._setStatus('error');
+      return;
+    }
+
+    // Detect port conflicts — another service is already using our port
+    const conflict = await this._isPortConflict();
+    if (conflict) {
+      this.lastError =
+        `Port ${this.port} is already in use by another application (e.g. EDB Postgres web UI). ` +
+        `Please stop that service or change the port in Settings, then restart.`;
       this._setStatus('error');
       return;
     }
