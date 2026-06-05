@@ -22,9 +22,6 @@ nsis:
   deleteAppDataOnUninstall: false
   include: scripts/installer.nsh
   license: "assets/license.txt"
-  installerIcon: "assets/logo.png"
-  uninstallerIcon: "assets/logo.png"
-  installerHeaderIcon: "assets/logo.png"
 
 directories:
   buildResources: assets

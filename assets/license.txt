@@ -6,7 +6,7 @@ IMPORTANT - READ CAREFULLY:
 By installing and using Quantheo, you agree to be bound by the terms of this End User License Agreement.
 
 2. COPYRIGHT & OWNERSHIP
-Copyright © 2024 Nevelle Coutinho. Copyrights exclusive to the owner. All rights reserved. The software is licensed, not sold.
+Copyright © 2026 Nevelle Coutinho. Copyrights exclusive to the owner. All rights reserved. The software is licensed, not sold.
 
 3. TRIAL & LICENSING
 The software includes a 1-month trial period. After the trial period expires, premium features will be restricted. A valid license key is required to restore full functionality. Licenses must be renewed annually.
